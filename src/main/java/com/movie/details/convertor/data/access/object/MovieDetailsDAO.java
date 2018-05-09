@@ -9,7 +9,7 @@ import org.hibernate.cfg.Configuration;
 /**
  * Created by Ortal on 5/5/2018.
  */
-public class MovieDetailsDAO  {
+public class MovieDetailsDAO implements DataAccessObjectInterface<MovieDetailBO> {
 
 
     protected SessionFactory sessionFactory;

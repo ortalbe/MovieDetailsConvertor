@@ -12,7 +12,7 @@ public class MovieDetailsDS {
 
     public MovieDetailsDS() {
         this.movieDetailsList = new Vector<String[]>();
-        this.currentIndex=0;
+        this.currentIndex=-1;
     }
 
     public void add(String [] input)

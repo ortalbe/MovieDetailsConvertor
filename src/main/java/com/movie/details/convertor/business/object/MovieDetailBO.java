@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "MOVIE_DETAILS" )
-public class MovieDetailBO {
+public class MovieDetailBO extends BusinessObject{
 
     public final static Logger LOG = Logger.getLogger(MovieDetailBO.class);
     public final static String CLASS_NAME = "MovieDetailBO";
@@ -53,6 +53,7 @@ public class MovieDetailBO {
 
 
     public MovieDetailBO() {
+
         this.title = null;
         this.fulltitle = null;
         this.movie_year = -1;
@@ -64,9 +65,11 @@ public class MovieDetailBO {
         this.runtime = null;
         this.language = null;
         this.ytID=null;
+        this.setName(this.getClass().getName());
+
     }
 
-    public MovieDetailBO(String [] array) {
+     public MovieDetailBO(String [] array) {
 
         String methodName = "::MovieDetailBO ";
 
@@ -86,11 +89,13 @@ public class MovieDetailBO {
         this.runtime = array[8];
         this.language = array[9];
         this.ytID=array[10];
+        this.setName(this.getClass().getName());
     }
 
 
 
-    public MovieDetailBO(String title, String fulltitle, int movie_year, String ctegories, String imageURL, String imdbID, String imdbRating, String runtime, String language) {
+     public MovieDetailBO(String title, String fulltitle, int movie_year, String ctegories, String imageURL, String imdbID, String imdbRating, String runtime, String language) {
+
         this.title = title;
         this.fulltitle = fulltitle;
         this.movie_year = movie_year;
@@ -100,9 +105,12 @@ public class MovieDetailBO {
         this.imdbRating = imdbRating;
         this.runtime = runtime;
         this.language = language;
+        this.setName(this.getClass().getName());
+
     }
 
-    public MovieDetailBO(String title, String fulltitle, int movie_year, String ctegories, String summary, String imageURL, String imdbID, String imdbRating, String runtime, String language, String ytID) {
+     public MovieDetailBO(String title, String fulltitle, int movie_year, String ctegories, String summary, String imageURL, String imdbID, String imdbRating, String runtime, String language, String ytID) {
+
         this.title = title;
         this.fulltitle = fulltitle;
         this.movie_year = movie_year;
@@ -114,6 +122,8 @@ public class MovieDetailBO {
         this.runtime = runtime;
         this.language = language;
         this.ytID = ytID;
+        this.setName(this.getClass().getName());
+
     }
 
     public void setDetail(String [] array) {
@@ -136,6 +146,7 @@ public class MovieDetailBO {
         this.runtime = array[8];
         this.language = array[9];
         this.ytID=array[10];
+
     }
 
     public String getTitle() {
