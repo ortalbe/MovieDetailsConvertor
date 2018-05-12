@@ -1,13 +1,13 @@
-package main.java.com.movie.details.convertor.data.access.object;
-import main.java.com.movie.details.convertor.business.object.MovieDetailBO;
-import main.java.com.movie.details.convertor.utils.ErrorCode;
+package com.movie.details.convertor.data.access.object;
+import com.movie.details.convertor.business.object.MovieDetailBO;
+import com.movie.details.convertor.utils.ErrorCode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.apache.log4j.Logger;
 import org.hibernate.cfg.Configuration;
 
 /**
- * Created by Ortal on 5/5/2018.
+ * MovieDetailsDAO - control all table operation for MOVIE_DETAILS table.
  */
 public class MovieDetailsDAO implements DataAccessObjectInterface<MovieDetailBO> {
 
@@ -114,7 +114,7 @@ public class MovieDetailsDAO implements DataAccessObjectInterface<MovieDetailBO>
 
 
     @Override
-    protected void finalize() throws Throwable {
+    public void finalize() throws Throwable {
         super.finalize();
         session.close();
         sessionFactory.close();

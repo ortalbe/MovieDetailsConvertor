@@ -1,10 +1,11 @@
-package main.java.com.movie.details.convertor.data.access.object;
+package com.movie.details.convertor.data.access.object;
 
-import main.java.com.movie.details.convertor.business.object.BusinessObject;
-import main.java.com.movie.details.convertor.utils.ErrorCode;
+
+import com.movie.details.convertor.business.object.BusinessObject;
+import com.movie.details.convertor.utils.ErrorCode;
 
 /**
- * Created by Ortal on 5/5/2018.
+ * DataAccessObjectInterface - data access interface. all DAO must implemt it.
  */
 public interface DataAccessObjectInterface <E extends BusinessObject>  {
 

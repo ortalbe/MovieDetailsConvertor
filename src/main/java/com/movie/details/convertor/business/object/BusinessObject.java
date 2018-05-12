@@ -1,7 +1,7 @@
-package main.java.com.movie.details.convertor.business.object;
+package com.movie.details.convertor.business.object;
 
 /**
- * Created by Ortal on 5/9/2018.
+ * Basic business Object - all BO must implement from it.
  */
 public class BusinessObject {
 

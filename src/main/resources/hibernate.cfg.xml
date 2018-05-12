@@ -19,10 +19,10 @@
         <property name="dialect">org.hibernate.dialect.PostgreSQL82Dialect</property> <!-- DB Dialect -->
         <property name="hbm2ddl.auto">create</property> <!-- create / create-drop / update -->
 
-        <property name="show_sql">false</property> <!-- Show SQL in console -->
-        <property name="format_sql">false</property> <!-- Show SQL formatted -->
+        <property name="show_sql">true</property> <!-- Show SQL in console -->
+        <property name="format_sql">true</property> <!-- Show SQL formatted -->
 
-        <mapping class = "main.java.com.movie.details.convertor.business.object.MovieDetailBO"/>
+        <mapping class = "com.movie.details.convertor.business.object.MovieDetailBO"/>
 
     </session-factory>
 </hibernate-configuration>

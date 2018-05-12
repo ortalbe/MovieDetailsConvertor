@@ -1,4 +1,4 @@
-package main.java.com.movie.details.convertor.hibernate.config;
+package com.movie.details.convertor.hibernate.config;
 
 /**
  * Created by Ortal on 5/5/2018.

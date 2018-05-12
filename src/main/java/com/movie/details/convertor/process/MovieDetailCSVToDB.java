@@ -1,12 +1,13 @@
-package main.java.com.movie.details.convertor.process;
+package com.movie.details.convertor.process;
 
 
+import com.movie.details.convertor.process.movieDetailsDBExecutor;
 import javafx.util.Pair;
-import main.java.com.movie.details.convertor.business.object.MovieDetailBO;
-import main.java.com.movie.details.convertor.controlers.MovieDetailsControler;
-import main.java.com.movie.details.convertor.data.access.object.MovieDetailsDAO;
-import main.java.com.movie.details.convertor.data.structure.MovieDetailsDS;
-import main.java.com.movie.details.convertor.utils.ErrorCode;
+import com.movie.details.convertor.business.object.MovieDetailBO;
+import com.movie.details.convertor.controlers.MovieDetailsControler;
+import com.movie.details.convertor.data.access.object.MovieDetailsDAO;
+import com.movie.details.convertor.data.structure.MovieDetailsDS;
+import com.movie.details.convertor.utils.ErrorCode;
 import com.opencsv.CSVReader;
 import org.apache.log4j.Logger;
 
@@ -16,9 +17,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Ortal on 5/5/2018.
+ * MovieDetailCSVToDB - convert cvs file to a table in the DB MOVIE_DETAILS.
  */
 public class MovieDetailCSVToDB {
 
@@ -26,7 +28,8 @@ public class MovieDetailCSVToDB {
     private static Logger LOG = Logger.getLogger(MovieDetailCSVToDB.class);
     private static final String CLASS_NAME = "MovieDetailCSVToDB";
     private MovieDetailsDS movieDetailsDataStructure;
-    private static final int NUMBER_OF_THREADS=5;
+    private static final int NUMBER_OF_THREADS=2;
+    private MovieDetailsDBMonitor tableThreadMonitor;
 
     public ErrorCode process()
     {
@@ -42,31 +45,35 @@ public class MovieDetailCSVToDB {
             reader = new CSVReader(new FileReader(csvFile));
             String[] movieDetails;
             movieDetails = reader.readNext();
-            MovieDetailsControler movieDetailsControler=new MovieDetailsControler();
-            MovieDetailsDAO movieDetailsDAO = new MovieDetailsDAO() ;
 
             while ((movieDetails = reader.readNext()) != null) {
                 movieDetailsDataStructure.add(movieDetails);
-              /*  MovieDetailBO movieDetail= new MovieDetailBO(movieDetails);
-                movieDetailsControler.setMovieDetailsBO(movieDetail);
-                movieDetailsControler.setMovieDetailsDAO(movieDetailsDAO);
-                movieDetailsControler.crateDetailMovieBO();
-    */        }
-
+            }
 
 
             ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
             HashMap<Integer,Pair<Integer,Integer>> startAndEndIndex = mapDetailsMovieDS();
+            tableThreadMonitor = new MovieDetailsDBMonitor();
+
+            LOG.info(CLASS_NAME + methodName + "populate MOVIE_DETAILS using " + NUMBER_OF_THREADS + " threads");
+
             for (int i = 0; i < NUMBER_OF_THREADS; i++) {
-                Runnable movieDetail = new movieDetailsDBExecutor(movieDetailsDataStructure,startAndEndIndex.get((int)i));
+                Runnable movieDetail = new movieDetailsDBExecutor(movieDetailsDataStructure,tableThreadMonitor,startAndEndIndex.get((int)i));
                 executor.execute(movieDetail);
             }
 
-        //    executor.shutdown();
+            executor.shutdown();
 
-           /* while (!executor.isTerminated()) {
+            try {
+                if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+                    executor.shutdownNow();
+                }
+            } catch (InterruptedException ex) {
+                executor.shutdownNow();
+                Thread.currentThread().interrupt();
             }
-*/
+
+
             long endTime   = System.nanoTime();
             long totalTime = (endTime - startTime)/1000000000;
             LOG.info(CLASS_NAME + methodName + " total process time: " + totalTime);
@@ -93,5 +100,14 @@ public class MovieDetailCSVToDB {
 
         return indexMapping;
     }
+
+	@Override
+	public void finalize() throws Throwable {
+		super.finalize();
+		movieDetailsDataStructure.finalize();
+		tableThreadMonitor.finalize();
+	}
+    
+    
 
 }

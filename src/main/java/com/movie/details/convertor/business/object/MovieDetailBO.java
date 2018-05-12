@@ -1,4 +1,4 @@
-package main.java.com.movie.details.convertor.business.object;
+package com.movie.details.convertor.business.object;
 
 import org.apache.log4j.Logger;
 
@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "MOVIE_DETAILS" )
+@Table(name = "REF_MOVIE_DETAILS" )
 public class MovieDetailBO extends BusinessObject{
 
     public final static Logger LOG = Logger.getLogger(MovieDetailBO.class);
@@ -36,7 +36,7 @@ public class MovieDetailBO extends BusinessObject{
     private String imageURL;
 
     @Id
-    @Column(name="MOVIE_MDB_ID",nullable = false)
+    @Column(name="MOVIE_IMDB_ID",nullable = false)
     private String imdbID;
 
     @Column(name="MOVIE_IMDB_RATE")
@@ -75,7 +75,7 @@ public class MovieDetailBO extends BusinessObject{
 
         if(array.length!=COLUMN_SIZE)
         {
-            LOG.error(CLASS_NAME + methodName + "number of column in csv file not equal to MOVIE_DETAILS table.");
+            LOG.info(CLASS_NAME + methodName + "number of column in csv file not equal to MOVIE_DETAILS table.");
         }
 
         this.title = array[0];
@@ -132,7 +132,7 @@ public class MovieDetailBO extends BusinessObject{
 
         if(array.length!=COLUMN_SIZE)
         {
-            LOG.error(CLASS_NAME + methodName + "number of column in csv file not equal to MOVIE_DETAILS table.");
+            LOG.info(CLASS_NAME + methodName + "number of column in csv file not equal to MOVIE_DETAILS table.");
         }
 
         this.title = array[0];

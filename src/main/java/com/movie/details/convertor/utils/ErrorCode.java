@@ -1,4 +1,4 @@
-package main.java.com.movie.details.convertor.utils;
+package com.movie.details.convertor.utils;
 
 /**
  * Created by Ortal on 5/5/2018.

@@ -1,11 +1,14 @@
-package main.java.com.movie.details.convertor.controlers;
+package com.movie.details.convertor.controlers;
 
-import main.java.com.movie.details.convertor.business.object.MovieDetailBO;
-import main.java.com.movie.details.convertor.data.access.object.MovieDetailsDAO;
-import main.java.com.movie.details.convertor.utils.ErrorCode;
+import com.movie.details.convertor.business.object.MovieDetailBO;
+import com.movie.details.convertor.data.access.object.MovieDetailsDAO;
+import com.movie.details.convertor.utils.ErrorCode;
 
 /**
- * Created by Ortal on 5/6/2018.
+ * MovieDetailsControler - will create a new entry to MOVIE_DETAILS.
+ * we will use to object :
+ * 1. Business Object - a POJO for the entry.
+ * 2. Data access object - contain all operation recognized for the table.
  */
 public class MovieDetailsControler {
 
@@ -33,5 +36,15 @@ public class MovieDetailsControler {
         ErrorCode status = movieDetailsDAO.save(movieDetailsBO);
         return status;
     }
+
+	@Override
+	protected void finalize() throws Throwable {
+		// TODO Auto-generated method stub
+		super.finalize();
+		movieDetailsDAO.finalize();
+				
+	}
+    
+    
 }
 

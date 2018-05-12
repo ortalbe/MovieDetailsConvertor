@@ -1,9 +1,9 @@
-package main.java.com.movie.details.convertor.data.structure;
+package com.movie.details.convertor.data.structure;
 
 import java.util.Vector;
 
 /**
- * Created by Ortal on 5/7/2018.
+ * MovieDetailsDS - contain csv table represnt movies data
  */
 public class MovieDetailsDS {
 
@@ -41,4 +41,12 @@ public class MovieDetailsDS {
     {
         return movieDetailsList.get(index);
     }
+
+	@Override
+	public void finalize() throws Throwable {
+		super.finalize();
+		movieDetailsList=null;
+	}
+    
+    
 }

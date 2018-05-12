@@ -1,7 +1,7 @@
-package main.java.com.movie.details.convertor.exceptions;
+package com.movie.details.convertor.exceptions;
 
 /**
- * Created by Ortal on 5/9/2018.
+ * SaveDBExceptin
  */
 public class SaveDBExceptin extends RuntimeException {
 
