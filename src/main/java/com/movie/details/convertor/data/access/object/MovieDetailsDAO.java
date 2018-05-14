@@ -1,10 +1,9 @@
 package com.movie.details.convertor.data.access.object;
 import com.movie.details.convertor.business.object.MovieDetailBO;
+import com.movie.details.convertor.hibernate.config.SessionFactorySingelton;
 import com.movie.details.convertor.utils.ErrorCode;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.apache.log4j.Logger;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.Session;
 
 /**
  * MovieDetailsDAO - control all table operation for MOVIE_DETAILS table.
@@ -12,45 +11,28 @@ import org.hibernate.cfg.Configuration;
 public class MovieDetailsDAO implements DataAccessObjectInterface<MovieDetailBO> {
 
 
-    protected SessionFactory sessionFactory;
-    protected Session session;
+    protected SessionFactorySingelton sessionFactory;
     public final static Logger LOG = Logger.getLogger(MovieDetailsDAO.class);
     public final static String CLASS_NAME = "MovieDetailsDAO";
+    private Session session;
 
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public MovieDetailsDAO() {
+        openSingeltonSessionFactory();
+        session = sessionFactory.getSessionFactory().openSession();
     }
 
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    public ErrorCode openSingeltonSessionFactory() {
 
-    public Session getSession() {
-        return session;
-    }
+        String method ="::openSingeltonSessionFactory ";
+        try
+        {
+            LOG.info(CLASS_NAME + method + " open session factory.");
+            sessionFactory = SessionFactorySingelton.getInstance();
 
-    public void setSession(Session session) {
-        this.session = session;
-    }
-
-    public ErrorCode openSession() {
-
-        String method ="::openSession ";
-        try {
-            if(session==null && sessionFactory==null)
-            {
-                LOG.info(CLASS_NAME + method + " session factory not initialized yet. intialize session");
-                sessionFactory =  new Configuration().configure().buildSessionFactory();
-            }
-            if(session==null && sessionFactory!=null)
-            {
-                LOG.info(CLASS_NAME + method + " session not initialized yet. intialize session");
-                session=sessionFactory.openSession();
-            }
         }
         catch (Exception exception)
         {
-           LOG.error(CLASS_NAME + method + " and error occured while opening session",exception);
+           LOG.error(CLASS_NAME + method + " and error occurred while opening session",exception);
            return ErrorCode.ERROR;
         }
 
@@ -60,17 +42,9 @@ public class MovieDetailsDAO implements DataAccessObjectInterface<MovieDetailBO>
     public ErrorCode save(MovieDetailBO movieDetailBO) {
 
         String method = "save";
-        try {
-            openSession();
-            session.beginTransaction();
-            session.save(movieDetailBO);
-            session.getTransaction().commit();
-        }
-        catch (Exception exception)
-        {
-            LOG.error(CLASS_NAME + method + " and error occured while opening session",exception);
-            return ErrorCode.ERROR;
-        }
+        session.beginTransaction();
+        session.save(movieDetailBO);
+        session.getTransaction().commit();
 
         return ErrorCode.SUCCESS;
 
@@ -79,44 +53,27 @@ public class MovieDetailsDAO implements DataAccessObjectInterface<MovieDetailBO>
     public ErrorCode update(MovieDetailBO movieDetailBO) {
         String method = "update";
 
-        try {
-            openSession();
-            session.beginTransaction();
-            session.update(movieDetailBO);
-            session.getTransaction().commit();
-        }
-        catch (Exception exception)
-        {
-            LOG.error(CLASS_NAME + method + " and error occured while opening session",exception);
-            return ErrorCode.ERROR;
-        }
+        session.beginTransaction();
+        session.update(movieDetailBO);
+        session.getTransaction().commit();
 
         return ErrorCode.SUCCESS;
     }
 
     public ErrorCode delete(MovieDetailBO movieDetailBO) {
         String method = "delete";
-        try {
-            openSession();
-            session.beginTransaction();
-            session.delete(movieDetailBO);
-            session.getTransaction().commit();
-        }
-        catch (Exception exception)
-        {
-            LOG.error(CLASS_NAME + method + " and error occured while opening session",exception);
-            return ErrorCode.ERROR;
-        }
+
+        session.beginTransaction();
+        session.delete(movieDetailBO);
+        session.getTransaction().commit();
 
         return ErrorCode.SUCCESS;
     }
 
-
-
-    @Override
-    public void finalize() throws Throwable {
-        super.finalize();
-        session.close();
-        sessionFactory.close();
+    public SessionFactorySingelton getSessionFactorySingelton() {
+        return sessionFactory;
     }
+
+
+
 }

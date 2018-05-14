@@ -7,7 +7,9 @@
     <groupId>com.movie.details.convertor</groupId>
     <artifactId>MovieDetailConvertor</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <properties>
+    <jdk.version>1.8</jdk.version>
+    </properties>
 
     <dependencies>
         <!-- hibernate-core -->
@@ -37,7 +39,53 @@
             <artifactId>opencsv</artifactId>
             <version>3.8</version>
         </dependency>
-
-
     </dependencies>
+
+    <build>
+        <finalName>MovieDetailConvertor</finalName>
+        <plugins>
+            <!-- Set a compiler level -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Assembly Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <!-- get all project dependencies -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <!-- MainClass in mainfest make a executable jar -->
+                    <archive>
+                        <manifest>
+                            <mainClass>com.movie.details.convertor.MovieDetailsConvertorApp</mainClass>
+                        </manifest>
+                    </archive>
+
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- bind to the install phase -->
+                        <phase>install</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
 </project>

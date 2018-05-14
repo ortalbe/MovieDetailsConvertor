@@ -24,14 +24,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class MovieDetailCSVToDB {
 
-    private static final String csvFile = "current-Movie-Data.csv";
+    private String csvFile ;
     private static Logger LOG = Logger.getLogger(MovieDetailCSVToDB.class);
     private static final String CLASS_NAME = "MovieDetailCSVToDB";
     private MovieDetailsDS movieDetailsDataStructure;
-    private static final int NUMBER_OF_THREADS=2;
+    private int numberOfThreads;
     private MovieDetailsDBMonitor tableThreadMonitor;
 
-    public ErrorCode process()
+    public MovieDetailCSVToDB(String csvFile, String numberOfThreads) {
+        this.csvFile = csvFile;
+        this.numberOfThreads = Integer.parseInt(numberOfThreads);
+    }
+
+    public ErrorCode process( )
     {
         String methodName = "::process ";
         String line = "";
@@ -51,13 +56,13 @@ public class MovieDetailCSVToDB {
             }
 
 
-            ExecutorService executor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+            ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
             HashMap<Integer,Pair<Integer,Integer>> startAndEndIndex = mapDetailsMovieDS();
             tableThreadMonitor = new MovieDetailsDBMonitor();
 
-            LOG.info(CLASS_NAME + methodName + "populate MOVIE_DETAILS using " + NUMBER_OF_THREADS + " threads");
+            LOG.info(CLASS_NAME + methodName + "populate MOVIE_DETAILS using " + numberOfThreads + " threads");
 
-            for (int i = 0; i < NUMBER_OF_THREADS; i++) {
+            for (int i = 0; i < numberOfThreads; i++) {
                 Runnable movieDetail = new movieDetailsDBExecutor(movieDetailsDataStructure,tableThreadMonitor,startAndEndIndex.get((int)i));
                 executor.execute(movieDetail);
             }
@@ -65,7 +70,7 @@ public class MovieDetailCSVToDB {
             executor.shutdown();
 
             try {
-                if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+                if (!executor.awaitTermination(10000, TimeUnit.SECONDS)) {
                     executor.shutdownNow();
                 }
             } catch (InterruptedException ex) {
@@ -89,25 +94,18 @@ public class MovieDetailCSVToDB {
     private HashMap<Integer,Pair<Integer,Integer>> mapDetailsMovieDS() {
 
         int size = movieDetailsDataStructure.getSize();
-        int interval = size/NUMBER_OF_THREADS;
-        int leftover = size - interval*NUMBER_OF_THREADS;
+        int interval = size/numberOfThreads;
+        int leftover = size - interval*numberOfThreads;
         HashMap<Integer,Pair<Integer,Integer>> indexMapping = new HashMap<Integer,Pair<Integer,Integer>>();
 
-        for(int i=0;i<NUMBER_OF_THREADS-1;i++)
+        for(int i=0;i<numberOfThreads-1;i++)
             indexMapping.put(i,new Pair<Integer, Integer>(interval*i,interval*(i+1)-1));
 
-        indexMapping.put(NUMBER_OF_THREADS-1,new Pair<Integer, Integer>(interval*(NUMBER_OF_THREADS-1),size));
+        indexMapping.put(numberOfThreads-1,new Pair<Integer, Integer>(interval*(numberOfThreads-1),size-1));
 
         return indexMapping;
     }
 
-	@Override
-	public void finalize() throws Throwable {
-		super.finalize();
-		movieDetailsDataStructure.finalize();
-		tableThreadMonitor.finalize();
-	}
-    
-    
+
 
 }

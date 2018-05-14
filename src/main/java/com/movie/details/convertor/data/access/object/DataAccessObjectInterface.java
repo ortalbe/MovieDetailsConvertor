@@ -12,5 +12,5 @@ public interface DataAccessObjectInterface <E extends BusinessObject>  {
     ErrorCode save(E busniessObject );
     ErrorCode update(E busniessObject);
     ErrorCode delete(E busniessObject);
-    ErrorCode openSession();
+    ErrorCode openSingeltonSessionFactory();
 }

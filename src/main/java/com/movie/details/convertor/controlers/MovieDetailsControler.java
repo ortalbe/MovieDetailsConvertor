@@ -37,14 +37,6 @@ public class MovieDetailsControler {
         return status;
     }
 
-	@Override
-	protected void finalize() throws Throwable {
-		// TODO Auto-generated method stub
-		super.finalize();
-		movieDetailsDAO.finalize();
-				
-	}
-    
     
 }
 

@@ -42,11 +42,6 @@ public class MovieDetailsDS {
         return movieDetailsList.get(index);
     }
 
-	@Override
-	public void finalize() throws Throwable {
-		super.finalize();
-		movieDetailsList=null;
-	}
-    
+
     
 }

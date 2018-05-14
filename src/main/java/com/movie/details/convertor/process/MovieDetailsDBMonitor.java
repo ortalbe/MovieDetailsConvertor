@@ -21,12 +21,10 @@ public class MovieDetailsDBMonitor {
     public synchronized void waitForTableToBeCreated()
     {
         String methodName ="::waitForTableToBeCreated ";
-        LOG.info(CLASS_NAME + methodName +  Thread.currentThread().getName());
-
         if(getThreadCalledToCreateTable() && !getThreadFinishedToCreateTable() )
         {
             try {
-                LOG.info(CLASS_NAME + methodName + Thread.currentThread().getName() + "waiting for table to be created" );
+                LOG.info(CLASS_NAME + methodName + Thread.currentThread().getId() + " waiting for table to be created" );
 
                 wait();
             } catch (InterruptedException e) {
@@ -74,11 +72,6 @@ public class MovieDetailsDBMonitor {
                 '}';
     }
 
-	@Override
-	public void finalize() throws Throwable {
-		super.finalize();
-	}
-    
-    
+
 }
 
