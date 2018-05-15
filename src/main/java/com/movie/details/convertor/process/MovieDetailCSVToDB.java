@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,7 @@ public class MovieDetailCSVToDB {
     private MovieDetailsDS movieDetailsDataStructure;
     private int numberOfThreads;
     private MovieDetailsDBMonitor tableThreadMonitor;
+    private static final int SUCCESS=1;
 
     public MovieDetailCSVToDB(String csvFile, String numberOfThreads) {
         this.csvFile = csvFile;
@@ -70,7 +72,7 @@ public class MovieDetailCSVToDB {
             executor.shutdown();
 
             try {
-                if (!executor.awaitTermination(10000, TimeUnit.SECONDS)) {
+                if (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
                     executor.shutdownNow();
                 }
             } catch (InterruptedException ex) {
@@ -82,6 +84,7 @@ public class MovieDetailCSVToDB {
             long endTime   = System.nanoTime();
             long totalTime = (endTime - startTime)/1000000000;
             LOG.info(CLASS_NAME + methodName + " total process time: " + totalTime);
+            System.exit(SUCCESS);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

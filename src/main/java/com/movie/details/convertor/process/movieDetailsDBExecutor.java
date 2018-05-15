@@ -59,7 +59,7 @@ public class movieDetailsDBExecutor implements Runnable {
             LOG.info(CLASS_NAME + methodName + "Thread ID " + Thread.currentThread().getId() + " finished saving movie: " + movieDetails[TITLE_INDEX]);
         }
 
-        LOG.info(CLASS_NAME + methodName + " thread " + Thread.currentThread().getId() + " finished");
+        LOG.info(CLASS_NAME + methodName + " thread " + Thread.currentThread().getId() + " finished running.");
 
     }
 
