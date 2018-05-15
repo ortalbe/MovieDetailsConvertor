@@ -55,10 +55,10 @@ public class MovieDetailCSVToDB {
             String[] movieDetails;
             movieDetails = reader.readNext();
 
+
             while ((movieDetails = reader.readNext()) != null) {
                 movieDetailsDataStructure.add(movieDetails);
             }
-
 
             ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
             HashMap<Integer,Pair<Integer,Integer>> startAndEndIndex = mapDetailsMovieDS();
@@ -110,7 +110,5 @@ public class MovieDetailCSVToDB {
 
         return indexMapping;
     }
-
-
 
 }
