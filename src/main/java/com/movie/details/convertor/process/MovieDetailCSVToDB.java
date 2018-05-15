@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * MovieDetailCSVToDB - convert cvs file to a table in the DB MOVIE_DETAILS.
  */
+
 public class MovieDetailCSVToDB {
 
     private String csvFile ;
@@ -31,7 +32,7 @@ public class MovieDetailCSVToDB {
     private MovieDetailsDS movieDetailsDataStructure;
     private int numberOfThreads;
     private MovieDetailsDBMonitor tableThreadMonitor;
-    private static final int SUCCESS=1;
+    private static final int SUCCESS=0;
 
     public MovieDetailCSVToDB(String csvFile, String numberOfThreads) {
         this.csvFile = csvFile;
