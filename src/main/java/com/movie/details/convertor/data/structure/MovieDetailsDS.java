@@ -8,11 +8,10 @@ import java.util.Vector;
 public class MovieDetailsDS {
 
     private  volatile Vector<String[]> movieDetailsList;
-    private  int currentIndex;
+
 
     public MovieDetailsDS() {
         this.movieDetailsList = new Vector<String[]>();
-        this.currentIndex=-1;
     }
 
     public void add(String [] input)
@@ -25,17 +24,6 @@ public class MovieDetailsDS {
         return movieDetailsList.size();
     }
 
-
-    public synchronized int updateCurrentIndex ()
-    {
-        currentIndex++;
-        return currentIndex;
-    }
-
-    public int getCurrentIndex()
-    {
-        return currentIndex;
-    }
 
     public String [] getValue(int index)
     {

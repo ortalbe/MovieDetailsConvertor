@@ -18,7 +18,6 @@ public class MovieDetailsDAO implements DataAccessObjectInterface<MovieDetailBO>
 
     public MovieDetailsDAO() {
         openSingeltonSessionFactory();
-        session = sessionFactory.getSessionFactory().openSession();
     }
 
     public ErrorCode openSingeltonSessionFactory() {
@@ -41,34 +40,50 @@ public class MovieDetailsDAO implements DataAccessObjectInterface<MovieDetailBO>
 
     public ErrorCode save(MovieDetailBO movieDetailBO) {
 
-        String method = "save";
+        session = sessionFactory.getSessionFactory().openSession();
+
         session.beginTransaction();
         session.save(movieDetailBO);
         session.getTransaction().commit();
+        session.close();
 
         return ErrorCode.SUCCESS;
 
     }
 
     public ErrorCode update(MovieDetailBO movieDetailBO) {
-        String method = "update";
+
+        session = sessionFactory.getSessionFactory().openSession();
 
         session.beginTransaction();
         session.update(movieDetailBO);
         session.getTransaction().commit();
+        session.close();
 
         return ErrorCode.SUCCESS;
     }
 
     public ErrorCode delete(MovieDetailBO movieDetailBO) {
-        String method = "delete";
+
+        session = sessionFactory.getSessionFactory().openSession();
 
         session.beginTransaction();
         session.delete(movieDetailBO);
         session.getTransaction().commit();
+        session.close();
 
         return ErrorCode.SUCCESS;
     }
+
+    @Override
+    public MovieDetailBO get(String className, String id) {
+
+        session = sessionFactory.getSessionFactory().openSession();
+        MovieDetailBO movieDetailBO= (MovieDetailBO) session.get(className,id);
+        session.close();
+        return movieDetailBO;
+    }
+
 
     public SessionFactorySingelton getSessionFactorySingelton() {
         return sessionFactory;

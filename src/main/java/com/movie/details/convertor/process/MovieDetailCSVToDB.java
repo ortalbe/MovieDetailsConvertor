@@ -36,6 +36,11 @@ public class MovieDetailCSVToDB {
     private MovieDetailsDBMonitor tableThreadMonitor;
     private static final int SUCCESS=0;
 
+    public MovieDetailCSVToDB() {
+        this.csvFile = null;
+        this.numberOfThreads=1;
+    }
+
     public MovieDetailCSVToDB(String csvFile, String numberOfThreads) {
         this.csvFile = csvFile;
         this.numberOfThreads = Integer.parseInt(numberOfThreads);
@@ -97,7 +102,7 @@ public class MovieDetailCSVToDB {
         return ErrorCode.SUCCESS;
     }
 
-    private HashMap<Integer,Pair<Integer,Integer>> mapDetailsMovieDS() {
+     HashMap<Integer,Pair<Integer,Integer>> mapDetailsMovieDS() {
 
         int size = movieDetailsDataStructure.getSize();
         int interval = size/numberOfThreads;
@@ -112,4 +117,19 @@ public class MovieDetailCSVToDB {
         return indexMapping;
     }
 
+    public int getNumberOfThreads() {
+        return numberOfThreads;
+    }
+
+    public void setNumberOfThreads(int numberOfThreads) {
+        this.numberOfThreads = numberOfThreads;
+    }
+
+    public MovieDetailsDS getMovieDetailsDataStructure() {
+        return movieDetailsDataStructure;
+    }
+
+    public void setMovieDetailsDataStructure(MovieDetailsDS movieDetailsDataStructure) {
+        this.movieDetailsDataStructure = movieDetailsDataStructure;
+    }
 }

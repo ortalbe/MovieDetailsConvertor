@@ -237,7 +237,56 @@ public class MovieDetailBO extends BusinessObject{
         this.ytID = ytID;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        MovieDetailBO that = (MovieDetailBO) o;
 
+        if (movie_year != that.movie_year) return false;
+        if (title != null ? !title.equals(that.title) : that.title != null) return false;
+        if (fulltitle != null ? !fulltitle.equals(that.fulltitle) : that.fulltitle != null) return false;
+        if (ctegories != null ? !ctegories.equals(that.ctegories) : that.ctegories != null) return false;
+        if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
+        if (imageURL != null ? !imageURL.equals(that.imageURL) : that.imageURL != null) return false;
+        if (imdbID != null ? !imdbID.equals(that.imdbID) : that.imdbID != null) return false;
+        if (imdbRating != null ? !imdbRating.equals(that.imdbRating) : that.imdbRating != null) return false;
+        if (runtime != null ? !runtime.equals(that.runtime) : that.runtime != null) return false;
+        if (language != null ? !language.equals(that.language) : that.language != null) return false;
+        return ytID != null ? ytID.equals(that.ytID) : that.ytID == null;
+    }
 
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (fulltitle != null ? fulltitle.hashCode() : 0);
+        result = 31 * result + movie_year;
+        result = 31 * result + (ctegories != null ? ctegories.hashCode() : 0);
+        result = 31 * result + (summary != null ? summary.hashCode() : 0);
+        result = 31 * result + (imageURL != null ? imageURL.hashCode() : 0);
+        result = 31 * result + (imdbID != null ? imdbID.hashCode() : 0);
+        result = 31 * result + (imdbRating != null ? imdbRating.hashCode() : 0);
+        result = 31 * result + (runtime != null ? runtime.hashCode() : 0);
+        result = 31 * result + (language != null ? language.hashCode() : 0);
+        result = 31 * result + (ytID != null ? ytID.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "MovieDetailBO{" +
+                "title='" + title + '\'' +
+                ", fulltitle='" + fulltitle + '\'' +
+                ", movie_year=" + movie_year +
+                ", ctegories='" + ctegories + '\'' +
+                ", summary='" + summary + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                ", imdbID='" + imdbID + '\'' +
+                ", imdbRating='" + imdbRating + '\'' +
+                ", runtime='" + runtime + '\'' +
+                ", language='" + language + '\'' +
+                ", ytID='" + ytID + '\'' +
+                '}';
+    }
 }
