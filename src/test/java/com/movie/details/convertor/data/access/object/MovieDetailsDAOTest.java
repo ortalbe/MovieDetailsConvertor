@@ -1,6 +1,7 @@
 package com.movie.details.convertor.data.access.object;
 
 import com.movie.details.convertor.business.object.MovieDetailBO;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -74,7 +75,10 @@ public class MovieDetailsDAOTest {
         movieDetailBOUpdatedFromDB = movieDetailsDAO.get(movieDetailBO.getClass().getName(),movieDetailBO.getImdbID());
 
         assertEquals(movieDetailBOUpdatedFromDB.getCtegories(),"Drama");
+
+        movieDetailsDAO.delete(movieDetailBO);
     }
+
 
 
 }
