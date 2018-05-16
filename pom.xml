@@ -28,8 +28,6 @@
             <scope>test</scope>
         </dependency>
 
-
-
         <!-- hibernate-core -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -62,8 +60,6 @@
             <artifactId>junit-jupiter-api</artifactId>
             <version>RELEASE</version>
         </dependency>
-
-
     </dependencies>
 
     <build>
